@@ -1,11 +1,12 @@
 #!/bin/sh
 
+
 echo "EFI_DEV_NAME: $EFI_DEV_NAME"
 
 # only run this if $EFI_DEV_NAME is populated
 if [ ! -z "$EFI_DEV_NAME" ]; then
   for num in $(efibootmgr |grep "$EFI_DEV_NAME" | cut -d " " -f1| cut -d"t" -f2 | cut -d"*" -f1); do
-    echo "deleting device: $num"
+    echo "deleting EFI boot device: $num"
     efibootmgr --delete-bootnum --bootnum $num
   done
 else
