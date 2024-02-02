@@ -17,7 +17,7 @@ echo "WIPE_DISK: $WIPE_DISK"
 echo "DISK_DEV: $DISK_DEV"
 
 if [ ! -z "$WIPE_DISK" ] && [ ! -z "$DISK_DEV" ]; then
-  echo "not implemented yet"
+  blkdiscard "$DISK_DEV"
 else
   echo "env vars WIPE_DISK or DISK_DEV are not set. Both of these must be set in order to wipe a disk."
 fi
