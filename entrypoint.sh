@@ -13,11 +13,13 @@ else
   echo "env var EFI_DEV_NAME is not set. Must be set in order to clean up EFI boot devices."
 fi
 
-echo "WIPE_DISK: $WIPE_DISK"
-echo "DISK_DEV: $DISK_DEV"
+echo "DISK_DEVICES: $DISK_DEVICES"
+echo "DISK_DEVICES format should be: DISK_DEVICES=(/dev/sda /dev/nvme0n1 /dev/nvme1n1)"
 
-if [ ! -z "$WIPE_DISK" ] && [ ! -z "$DISK_DEV" ]; then
-  blkdiscard "$DISK_DEV" || wipefs -a "$DISK_DEV"
+if [ ! -z "$DISK_DEVICES" ]; then
+  for disk in "${DISK_DEVICES[@]}"; do
+    blkdiscard -f "$disk" || wipefs -a "$disk"
+  done
 else
-  echo "env vars WIPE_DISK or DISK_DEV are not set. Both of these must be set in order to wipe a disk."
+  echo "env var DISK_DEVICES is not set. Must be set in order to wipe additional disks."
 fi
